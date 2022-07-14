@@ -1,80 +1,55 @@
 #include "main.h"
+#include <stdio.h>
 
 /**
- * infinite_add - function that adds two numbers
- *
- * @n1: first number
- *
- * @n2: second number
- *
- * @r: buffer that the function will store the result
- *
- * @size_r: the buffer size
- *
- * Return: addition of two numbers
+ * infinite_add - adds two numbers
+ * @n1: number one.
+ * @n2: number two.
+ * @r: buffer that the function will use to store the result.
+ * @size_r: buffer size:
+ * Return: the pointer to dest.
  */
+
 char *infinite_add(char *n1, char *n2, char *r, int size_r)
 {
+	int c1 = 0, c2 = 0, op, bg, dr1, dr2, add = 0;
 
-	int add = 0, ab1, ab2, x, y;
-
-
-
-	for (ab1 = 0; n1[ab1]; ab1++)
-
-	;
-
-	for (ab2 = 0; n2[ab2]; ab2++)
-
-	;
-
-	if (ab1 > size_r || ab2 > size_r)
-
+	while (*(n1 + c1) != '\0')
+		c1++;
+	while (*(n2 + c2) != '\0')
+		c2++;
+	if (c1 >= c2)
+		bg = c1;
+	else
+		bg = c2;
+	if (size_r <= bg + 1)
 		return (0);
-
-	ab1--;
-
-	ab2--;
-
-	size_r--;
-
-	for (x = 0; x < size_r; x++, ab1--, ab2--)
+	r[bg + 1] = '\0';
+	c1--, c2--, size_r--;
+	dr1 = *(n1 + c1) - 48, dr2 = *(n2 + c2) - 48;
+	while (bg >= 0)
 	{
-
-		if (ab1 >= 0)
-
-			add += n1[ab1] - 48;
-
-		if (ab2 >= 0)
-
-			add += n2[ab2] - 48;
-
-		if (ab1 < 0 && ab2 < 0 && add == 0)
-
-			break;
-
-		r[x] = add % 10 + 48;
-
-		add /= 10;
-
+		op = dr1 + dr2 + add;
+		if (op >= 10)
+			add = op / 10;
+		else
+			add = 0;
+		if (op > 0)
+		*(r + bg) = (op % 10) + 48;
+		else
+			*(r + bg) = '0';
+		if (c1 > 0)
+			c1--, dr1 = *(n1 + c1) - 48;
+		else
+			dr1 = 0;
+		if (c2 > 0)
+			c2--, dr2 = *(n2 + c2) - 48;
+		else
+			dr2 = 0;
+		bg--, size_r--;
 	}
-
-	r[x] = '\0';
-
-	if (ab1 >= 0 || ab2 >= 0 || add)
-
-		return (0);
-
-	for (x--, y = 0; x > y; x--, y++)
-	{
-
-		add = r[x];
-
-		r[x] = r[y];
-
-		r[y] = add;
-
-	}
-
-	return (r);
+	if (*(r) == '0')
+		return (r + 1);
+	else
+		return (r);
 }
