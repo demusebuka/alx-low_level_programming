@@ -1,62 +1,31 @@
 #include "main.h"
 
-
-
 /**
- * *cap_string - capitalizes all words of a string
- *
- * @c: string to use
- *
- * Return: string
+ * cap_string - capitalizes all words of a string
+ * @s: input string.
+ * Return: the pointer to dest.
  */
-char *cap_string(char *c)
+
+char *cap_string(char *s)
 {
-	int x, y, probe;
+	int count = 0, i;
+	int sep_words[] = {32, 9, 10, 44, 59, 46, 33, 63, 34, 40, 41, 123, 125};
 
-char i[] = {',', ';', '.', '!', '?', '"', '(', ')', '{', '}', '\n', '\t', ' '};
-
-
-
-	if (c[0] >= 97 && c[0] <= 122)
-
-		c[0] = c[0] - 32;
-
-	while (c[x] != '\0')
+	if (*(s + count) >= 97 && *(s + count) <= 122)
+		*(s + count) = *(s + count) - 32;
+	count++;
+	while (*(s + count) != '\0')
 	{
-
-		if (c[x] >= 97 && c[x] <= 122)
+		for (i = 0; i < 13; i++)
 		{
-
-			y = 0;
-
-			probe = 0;
-
-			while (probe == 0 && y < 13)
+			if (*(s + count) == sep_words[i])
 			{
-
-				if (c[x - 1] == i[y])
-				{
-
-					probe = 1;
-
-				}
-
-				y++;
-
+				if ((*(s + (count + 1)) >= 97) && (*(s + (count + 1)) <= 122))
+					*(s + (count + 1)) = *(s + (count + 1)) - 32;
+				break;
 			}
-
-			if (probe == 1)
-			{
-
-				c[x] = c[x] - 32;
-
-			}
-
 		}
-
-		x++;
-
+		count++;
 	}
-
-	return (c);
+	return (s);
 }
